@@ -44,4 +44,12 @@ public enum Rank {
         return countOfMatch == THIRD.countOfMatch;
     }
 
+    @Override
+    public String toString() {
+        return "Rank{" +
+                "countOfMatch=" + countOfMatch +
+                ", prizeMoney=" + prizeMoney +
+                '}';
+    }
+
 }

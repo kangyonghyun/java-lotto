@@ -1,5 +1,6 @@
 package lotto.step3.domain;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15,12 +16,8 @@ public class WinningLotto {
         this.bonusBall = new LottoNumber(bonusBall);
     }
 
-    public Map<Integer, Integer> createRepository(Lotteries lotteries) {
-        return lotteries.createRepository(winningNumbers);
-    }
-
-    public int totalSecondPrizeWinners(Lotteries lotteries) {
-        return lotteries.totalSecondPrizeWinners(winningNumbers, bonusBall);
+    public Map<Rank, Integer> createLottoStatistics(Lotteries lotteries) {
+        return lotteries.createLottoStatistics(winningNumbers, bonusBall);
     }
 
     public double calculateRateOfProfit(Lotteries lotteries, int orderPrice) {
@@ -30,8 +27,8 @@ public class WinningLotto {
     private void checkBonusBall(List<Integer> winningNumbers, int bonusBall) {
         boolean isAllNoneMatch = winningNumbers.stream()
                 .noneMatch(number -> number == bonusBall);
-        if (isAllNoneMatch) {
-            throw new IllegalArgumentException("당첨번호 내에서 보너스볼을 입력해주세요");
+        if (!isAllNoneMatch) {
+            throw new IllegalArgumentException("당첨번호 외에 보너스볼을 입력해주세요");
         }
     }
 

@@ -17,10 +17,22 @@ public class Lotto {
         this.numbers = LottoGenerator.createWinningNumbers(numbers);
     }
 
-    public boolean isCountOfMatch(Lotto winningNumbers, int count) {
+    // 당첨번호와 몇개 맞냐?
+    public int countOfMatch(Lotto winningNumbers) {
+        return (int) numbers.stream()
+                .filter(winningNumbers.getNumbers()::contains)
+                .count();
+    }
+
+    // 2등을 제외한 매칭이 맞냐?
+    public boolean isCountOfMatch(Lotto winningNumbers, int count, LottoNumber bonusBall) {
+        if (isSecondPrizeWinner(winningNumbers, bonusBall)) {
+            return false;
+        }
         return countOfMatch(winningNumbers) == count;
     }
 
+    // 2등인지 확인
     public boolean isSecondPrizeWinner(Lotto winningNumbers, LottoNumber bonusBall) {
         return countOfMatch(winningNumbers) == LOTTO_BONUS_COUNT && hasBonusBall(bonusBall);
     }
@@ -32,12 +44,6 @@ public class Lotto {
 
     public List<LottoNumber> getNumbers() {
         return numbers;
-    }
-
-    private int countOfMatch(Lotto winningNumbers) {
-        return (int) numbers.stream()
-                .filter(winningNumbers.getNumbers()::contains)
-                .count();
     }
 
     private boolean hasBonusBall(LottoNumber bonusBall) {

@@ -20,11 +20,9 @@ public class LottoController {
 
         WinningLotto winningLotto = new WinningLotto(printInputWinningNumbers(), PrintInputBonusBall());
 
-        Map<Integer, Integer> prizeWinnersRepository = winningLotto.createRepository(lotteries);
-        int totalSecondPrizeWinner = winningLotto.totalSecondPrizeWinners(lotteries);
-
-        printWinningStatics(prizeWinnersRepository, totalSecondPrizeWinner);
-        printRateOfReturn(winningLotto.calculateRateOfProfit(lotteries, orderPrice));
+        Map<Rank, Integer> lottoStatistics = winningLotto.createLottoStatistics(lotteries);
+        double rateOfReturn = winningLotto.calculateRateOfProfit(lotteries, orderPrice);
+        printLottoStatics(lottoStatistics, rateOfReturn);
 
     }
 

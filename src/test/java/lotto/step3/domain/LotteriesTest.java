@@ -34,38 +34,40 @@ class LotteriesTest {
         assertThat(lotteries.getLotteries()).size().isEqualTo(14);
     }
 
+
     @ParameterizedTest
     @MethodSource("provideWinnerNumberCount1")
-    @DisplayName("당첨번호와 비교했을떄, 로또번호 중 n개(key) 일치하는 로또 수(value)")
-    void createRepository(Lotto winningNumbers, int key, int value) {
-        Map<Integer, Integer> repository = lotteries.createRepository(winningNumbers);
-        assertThat(repository.get(key)).isEqualTo(value);
+    @DisplayName("당첨번호와 비교했을떄, 당첨 통계 Map 저장")
+    void createLottoStatistics(Lotto winningNumbers, Rank rank, int value) {
+        Map<Rank, Integer> lottoStatistics = lotteries.createLottoStatistics(winningNumbers, new LottoNumber(12));
+        System.out.println(lottoStatistics);
+        assertThat(lottoStatistics.get(rank)).isEqualTo(value);
     }
 
     private static Stream<Arguments> provideWinnerNumberCount1() {
         return Stream.of(
-                Arguments.of(new Lotto(Arrays.asList(1, 2, 3, 43, 44, 45)), 3, 1),
-                Arguments.of(new Lotto(Arrays.asList(1, 2, 3, 4, 44, 45)), 4, 1),
-                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 45)), 5, 2),
-                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 15)), 5, 2),
-                Arguments.of(new Lotto(Arrays.asList(13, 14, 15, 16, 17, 18)), 6, 1)
+                Arguments.of(new Lotto(Arrays.asList(1, 2, 3, 43, 44, 45)), Rank.FIFTH, 1),
+                Arguments.of(new Lotto(Arrays.asList(1, 2, 3, 4, 44, 45)), Rank.FOURTH, 1),
+                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 45)), Rank.SECOND, 1),
+                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 14, 15)), Rank.THIRD, 1),
+                Arguments.of(new Lotto(Arrays.asList(13, 14, 15, 16, 17, 18)), Rank.FIRST, 1)
         );
     }
 
-    @ParameterizedTest
-    @MethodSource("provideWinnerNumberCount2")
-    @DisplayName("총 로또 중에서 2등이 몇명나왔냐?(5개가 매칭되고 보너스볼이 맞아야한다.")
-    void totalSecondPrizeWinner(Lotto winningNumbers, int bonusBall, int result) {
-        assertThat(lotteries.totalSecondPrizeWinners(winningNumbers, new LottoNumber(bonusBall))).isEqualTo(result);
-    }
-
-    private static Stream<Arguments> provideWinnerNumberCount2() {
-        return Stream.of(
-                Arguments.of(new Lotto(Arrays.asList(1, 2, 3, 4, 5, 45)), 1, 1),
-                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 13)), 11, 2),
-                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 45)), 45, 0)
-        );
-    }
+//    @ParameterizedTest
+//    @MethodSource("provideWinnerNumberCount2")
+//    @DisplayName("총 로또 중에서 2등이 몇명나왔냐?(5개가 매칭되고 보너스볼이 맞아야한다.")
+//    void totalSecondPrizeWinner(Lotto winningNumbers, int bonusBall, int result) {
+//        assertThat(lotteries.totalSecondPrizeWinners(winningNumbers, new LottoNumber(bonusBall))).isEqualTo(result);
+//    }
+//
+//    private static Stream<Arguments> provideWinnerNumberCount2() {
+//        return Stream.of(
+//                Arguments.of(new Lotto(Arrays.asList(1, 2, 3, 4, 5, 45)), 1, 1),
+//                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 13)), 11, 2),
+//                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 45)), 45, 0)
+//        );
+//    }
 
     @ParameterizedTest
     @MethodSource("provideWinnerNumberRate")
