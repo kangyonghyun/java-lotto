@@ -1,5 +1,6 @@
 package lotto.step3.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -16,22 +17,31 @@ public final class InputView {
     }
 
     public static int printInputOrderPrice() {
-        System.out.println("구매 금액을 입력해주세요");
+        System.out.println("구매 금액을 입력해주세요.");
         String orderPrice = sc.nextLine();
         checkIsDigit(orderPrice);
         return Integer.parseInt(orderPrice);
     }
 
+    public static int printInputOrderCount() {
+        System.out.println("수동으로 구매할 로또 수를 입력해 주세요.");
+        String orderCount = sc.nextLine();
+        checkIsDigit(orderCount);
+        return Integer.parseInt(orderCount);
+    }
+
+    public static List<List<Integer>> printInputLottoNumbers(int orderCount) {
+        System.out.println("수동으로 구매할 번호를 입력해주세요.");
+        List<List<Integer>> lotteries = new ArrayList<>();
+        for (int i = 0; i < orderCount; i++) {
+            lotteries.add(inputToLottoNumbers());
+        }
+        return lotteries;
+    }
+
     public static List<Integer> printInputWinningNumbers() {
         System.out.println("지난 주 당첨 번호를 입력해 주세요.");
-        String[] input = sc.nextLine().split(COMMA);
-        Arrays.stream(input)
-                .forEach(InputView::checkIsDigit);
-        List<Integer> winningNumbers = Arrays.stream(input)
-                .map(s -> Integer.valueOf(s.trim()))
-                .collect(Collectors.toList());
-        checkNumbers(winningNumbers);
-        return winningNumbers;
+        return inputToLottoNumbers();
     }
 
     public static int PrintInputBonusBall() {
@@ -42,10 +52,21 @@ public final class InputView {
         return Integer.parseInt(bonusBall);
     }
 
+    private static List<Integer> inputToLottoNumbers() {
+        String[] input = sc.nextLine().split(COMMA);
+        Arrays.stream(input)
+                .forEach(InputView::checkIsDigit);
+        List<Integer> lottoNumbers = Arrays.stream(input)
+                .map(s -> Integer.valueOf(s.trim()))
+                .collect(Collectors.toList());
+        checkNumbers(lottoNumbers);
+        return lottoNumbers;
+    }
+
     private static void checkIsDigit(String orderPrice) {
-        for (char c : orderPrice.toCharArray()) {
+        for (char c : orderPrice.trim().toCharArray()) {
             if (!Character.isDigit(c)) {
-                throw new IllegalArgumentException("숫자를 입력해주세요");
+                throw new IllegalArgumentException("양수를 입력해주세요");
             }
         }
     }

@@ -15,9 +15,16 @@ class OrderCountTest {
     }
 
     @Test
+    @DisplayName("카운트 마이너스 해준다 - 자동로또 개수 구할때 사용")
+    void minusCount() {
+        OrderCount orderCount = new OrderCount(3);
+        assertThat(orderCount.minusCount(new OrderCount(2))).isEqualTo(new OrderCount(1));
+    }
+
+    @Test
     @DisplayName("1개 미만 -> IllegalArgumentException")
     void validation() {
-        assertThatThrownBy(() -> new OrderCount(0))
+        assertThatThrownBy(() -> new OrderCount(-1))
                 .isInstanceOf(IllegalArgumentException.class);
         //정상
         assertThatCode(() -> new OrderCount(1))

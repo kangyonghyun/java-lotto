@@ -54,21 +54,6 @@ class LotteriesTest {
         );
     }
 
-//    @ParameterizedTest
-//    @MethodSource("provideWinnerNumberCount2")
-//    @DisplayName("총 로또 중에서 2등이 몇명나왔냐?(5개가 매칭되고 보너스볼이 맞아야한다.")
-//    void totalSecondPrizeWinner(Lotto winningNumbers, int bonusBall, int result) {
-//        assertThat(lotteries.totalSecondPrizeWinners(winningNumbers, new LottoNumber(bonusBall))).isEqualTo(result);
-//    }
-//
-//    private static Stream<Arguments> provideWinnerNumberCount2() {
-//        return Stream.of(
-//                Arguments.of(new Lotto(Arrays.asList(1, 2, 3, 4, 5, 45)), 1, 1),
-//                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 13)), 11, 2),
-//                Arguments.of(new Lotto(Arrays.asList(7, 8, 9, 10, 11, 45)), 45, 0)
-//        );
-//    }
-
     @ParameterizedTest
     @MethodSource("provideWinnerNumberRate")
     @DisplayName("당첨번호와 비교 했을때, 로또구매 금액과 당첨수에 따른 총 수익률 계산")

@@ -26,6 +26,11 @@ public class Lotteries {
         this.lotteries = lotteries;
     }
 
+    public Lotteries(List<Lotto> lotteries, int orderCount) {
+        this.lotteries = lotteries;
+        this.lotteries.addAll(new Lotteries(orderCount).getLotteries());
+    }
+
     // 당첨 통계 Map에 저장
     public Map<Rank, Integer> createLottoStatistics(Lotto winningNumbers, LottoNumber bonusBall) {
         Map<Rank, Integer> lottoStatistics = new HashMap<>();

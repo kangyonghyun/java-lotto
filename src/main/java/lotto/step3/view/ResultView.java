@@ -1,8 +1,6 @@
 package lotto.step3.view;
 
-import lotto.step3.domain.Lotteries;
-import lotto.step3.domain.Lotto;
-import lotto.step3.domain.Rank;
+import lotto.step3.domain.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,8 +19,9 @@ public final class ResultView {
         System.out.println();
     }
 
-    public static void printOrderLottoCount(Lotteries lotteries) {
-        System.out.println(lotteries.getLotteries().size() + "개를 구매했습니다.");
+    public static void printOrderLottoCount(int orderManualCount, LottoStore store) {
+        int autoCount = store.calculateAllCount().getOrderCount() - orderManualCount;
+        System.out.println("수동으로 " + orderManualCount + "장, 자동으로 " + autoCount + "개를 구매했습니다.");
     }
 
     public static void printLottoStatics(Map<Rank, Integer> lottoStatistics, double profit) {
