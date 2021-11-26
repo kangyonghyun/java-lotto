@@ -1,9 +1,6 @@
 package lotto.step3.view;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public final class InputView {
@@ -31,6 +28,9 @@ public final class InputView {
     }
 
     public static List<List<Integer>> printInputLottoNumbers(int orderCount) {
+        if (orderCount <= 0) {
+            return new ArrayList<>();
+        }
         System.out.println("수동으로 구매할 번호를 입력해주세요.");
         List<List<Integer>> lotteries = new ArrayList<>();
         for (int i = 0; i < orderCount; i++) {
@@ -45,7 +45,7 @@ public final class InputView {
     }
 
     public static int PrintInputBonusBall() {
-        System.out.println("보너스 볼을 입력해 주세요");
+        System.out.println("보너스 볼을 입력해 주세요.");
         String bonusBall = sc.nextLine();
         checkIsDigit(bonusBall);
         System.out.println();
@@ -66,18 +66,18 @@ public final class InputView {
     private static void checkIsDigit(String orderPrice) {
         for (char c : orderPrice.trim().toCharArray()) {
             if (!Character.isDigit(c)) {
-                throw new IllegalArgumentException("양수를 입력해주세요");
+                throw new IllegalArgumentException("양수를 입력해주세요.");
             }
         }
     }
 
     private static void checkNumbers(List<Integer> numbers) {
         if (numbers.size() != LOTTO_SIZE) {
-            throw new IllegalArgumentException("6자리 입력 해주세요!!");
+            throw new IllegalArgumentException("6자리 입력 해주세요.!!");
         }
         numbers.forEach(n -> {
             if (!(1 <= n && n <= 45)) {
-                throw new IllegalArgumentException("1~45 숫자를 입력해주세요!!");
+                throw new IllegalArgumentException("1~45 숫자를 입력해주세요.!!");
             }});
     }
 

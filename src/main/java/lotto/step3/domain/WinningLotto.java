@@ -1,8 +1,6 @@
 package lotto.step3.domain;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class WinningLotto {
@@ -11,25 +9,19 @@ public class WinningLotto {
     private final LottoNumber bonusBall;
 
     public WinningLotto(List<Integer> winningNumbers, int bonusBall) {
-        checkBonusBall(winningNumbers, bonusBall);
         this.winningNumbers = new Lotto(winningNumbers);
-        this.bonusBall = new LottoNumber(bonusBall);
-    }
-
-    public Map<Rank, Integer> createLottoStatistics(Lotteries lotteries) {
-        return lotteries.createLottoStatistics(winningNumbers, bonusBall);
-    }
-
-    public double calculateRateOfProfit(Lotteries lotteries, int orderPrice) {
-        return lotteries.calculateRateOfProfit(winningNumbers, bonusBall, orderPrice);
-    }
-
-    private void checkBonusBall(List<Integer> winningNumbers, int bonusBall) {
-        boolean isAllNoneMatch = winningNumbers.stream()
-                .noneMatch(number -> number == bonusBall);
-        if (!isAllNoneMatch) {
+        this.bonusBall = LottoNumber.of(bonusBall);
+        if (winningNumbers.contains(bonusBall)) {
             throw new IllegalArgumentException("당첨번호 외에 보너스볼을 입력해주세요");
         }
+    }
+
+    public Lotto getWinningNumbers() {
+        return winningNumbers;
+    }
+
+    public LottoNumber getBonusBall() {
+        return bonusBall;
     }
 
     @Override

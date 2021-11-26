@@ -1,6 +1,5 @@
 package lotto.step3.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,26 +13,21 @@ public class LottoStore {
         this.orderPrice = new OrderPrice(orderPrice);
     }
 
+    public Lotteries sellAllLotteries(int orderManualCount, List<List<Integer>> lotteries) {
+        return new Lotteries(lotteries, calculateAutoCount(orderManualCount));
+    }
+
+    public int calculateAutoCount(int orderManualCount) {
+        OrderCount manualCount = new OrderCount(orderManualCount);
+        return manualCount.calculateAutoCount(calculateAllCount());
+    }
+
     public OrderCount calculateAllCount() {
         return new OrderCount(orderPrice.getOrderPrice() / LOTTO_PRICE);
     }
 
-    public Lotteries sellAllLotteries(int orderManualCount, List<List<Integer>> list) {
-        List<Lotto> lotteries = new ArrayList<>();
-        for (int i = 0; i < orderManualCount; i++) {
-            lotteries.add(new Lotto(list.get(i)));
-        }
-        return new Lotteries(lotteries, calculateAutoCount(orderManualCount));
-    }
-
     public OrderPrice getOrderPrice() {
         return orderPrice;
-    }
-
-    private int calculateAutoCount(int orderManualCount) {
-        OrderCount manualCount = new OrderCount(orderManualCount);
-        OrderCount autoCount = calculateAllCount().minusCount(manualCount);
-        return autoCount.getOrderCount();
     }
 
     @Override

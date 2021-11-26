@@ -15,10 +15,10 @@ class OrderCountTest {
     }
 
     @Test
-    @DisplayName("카운트 마이너스 해준다 - 자동로또 개수 구할때 사용")
-    void minusCount() {
-        OrderCount orderCount = new OrderCount(3);
-        assertThat(orderCount.minusCount(new OrderCount(2))).isEqualTo(new OrderCount(1));
+    @DisplayName("자동로또 개수 = 전체로또 - 수동구매")
+    void calculateAutoCount() {
+        OrderCount manualCount = new OrderCount(3);
+        assertThat(manualCount.calculateAutoCount(new OrderCount(5))).isEqualTo(2);
     }
 
     @Test

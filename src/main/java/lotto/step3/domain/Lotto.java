@@ -5,49 +5,28 @@ import java.util.Objects;
 
 public class Lotto {
 
-    public static final int LOTTO_BONUS_COUNT = 5;
-
     private final List<LottoNumber> numbers;
 
     public Lotto() {
-        this.numbers = LottoGenerator.createLotto();
+        this.numbers = LottoGenerator.createAutoLotto();
     }
 
     public Lotto(List<Integer> numbers) {
-        this.numbers = LottoGenerator.createWinningNumbers(numbers);
+        this.numbers = LottoGenerator.createManualLotto(numbers);
     }
 
-    // 당첨번호와 몇개 맞냐?
     public int countOfMatch(Lotto winningNumbers) {
         return (int) numbers.stream()
-                .filter(winningNumbers.getNumbers()::contains)
+                .filter(winningNumbers::contains)
                 .count();
     }
 
-    // 2등을 제외한 매칭이 맞냐?
-    public boolean isCountOfMatch(Lotto winningNumbers, int count, LottoNumber bonusBall) {
-        if (isSecondPrizeWinner(winningNumbers, bonusBall)) {
-            return false;
-        }
-        return countOfMatch(winningNumbers) == count;
-    }
-
-    // 2등인지 확인
-    public boolean isSecondPrizeWinner(Lotto winningNumbers, LottoNumber bonusBall) {
-        return countOfMatch(winningNumbers) == LOTTO_BONUS_COUNT && hasBonusBall(bonusBall);
-    }
-
-    public int calculatePrizeMoney(Lotto winningNumbers, LottoNumber bonusBall) {
-        return Rank.valueOf(countOfMatch(winningNumbers),
-                isSecondPrizeWinner(winningNumbers, bonusBall)).getPrizeMoney();
+    public boolean contains(LottoNumber lottoNumber) {
+        return numbers.contains(lottoNumber);
     }
 
     public List<LottoNumber> getNumbers() {
         return numbers;
-    }
-
-    private boolean hasBonusBall(LottoNumber bonusBall) {
-        return numbers.contains(bonusBall);
     }
 
     @Override

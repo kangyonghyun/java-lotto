@@ -5,6 +5,7 @@ import java.util.Objects;
 public class OrderCount {
 
     private static final int MIN_ORDER_COUNT = 0;
+
     private final int orderCount;
 
     public OrderCount(int orderCount) {
@@ -14,8 +15,8 @@ public class OrderCount {
         this.orderCount = orderCount;
     }
 
-    public OrderCount minusCount(OrderCount count) {
-        return new OrderCount(this.getOrderCount() - count.getOrderCount());
+    public int calculateAutoCount(OrderCount calculateAllCount) {
+        return calculateAllCount.getOrderCount() - this.orderCount;
     }
 
     public int getOrderCount() {

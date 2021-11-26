@@ -17,7 +17,7 @@ class WinningLottoTest {
     }
 
     @Test
-    @DisplayName("보너스볼은 당첨번호에 포함 x -> IllegalArgumentException")
+    @DisplayName("보너스볼이 당첨번호에 포함 될 수 없음 -> IllegalArgumentException")
     void validation() {
         List<Integer> winningNumbers = Arrays.asList(1, 2, 3, 4, 5, 6);
         assertThatThrownBy(() -> new WinningLotto(winningNumbers, 1))
