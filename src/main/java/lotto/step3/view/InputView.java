@@ -17,6 +17,10 @@ public final class InputView {
         System.out.println("구매 금액을 입력해주세요.");
         String orderPrice = sc.nextLine();
         checkIsDigit(orderPrice);
+        int price = Integer.parseInt(orderPrice);
+        if (price < 1000) {
+            throw new IllegalArgumentException("1000원 이상 입력바람");
+        }
         return Integer.parseInt(orderPrice);
     }
 
