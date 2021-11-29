@@ -2,12 +2,16 @@ package lotto.lottogame.view;
 
 import lotto.lottogame.domain.*;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public final class ResultView {
+
+    private static final String RATE_PATTERN = "0.##";
 
     private ResultView() {
         throw new AssertionError();
@@ -20,8 +24,7 @@ public final class ResultView {
         System.out.println();
     }
 
-    public static void printOrderLottoCount(int manualCount, LottoStore store) {
-        int autoCount=  store.calculateAutoCount(manualCount);
+    public static void printOrderLottoCount(int manualCount, int autoCount) {
         System.out.println("수동으로 " + manualCount + "장, 자동으로 " + autoCount + "개를 구매했습니다.");
     }
 
@@ -45,7 +48,7 @@ public final class ResultView {
             builder.append("\n");
         }
         System.out.print(builder);
-        System.out.println("총 수익률은 " + statistics.calculateRateOfProfit() + "입니다.");
+        System.out.println("총 수익률은 " + format(statistics.calculateRateOfProfit())  + "입니다.");
     }
 
     private static void isSecondPrize(StringBuilder builder, Rank rank) {
@@ -60,6 +63,12 @@ public final class ResultView {
             return;
         }
         builder.append(lottoStatistics.get(rank));
+    }
+
+    private static double format(double total) {
+        DecimalFormat format = new DecimalFormat(RATE_PATTERN);
+        format.setRoundingMode(RoundingMode.DOWN);
+        return Double.parseDouble(format.format(total));
     }
 
 }

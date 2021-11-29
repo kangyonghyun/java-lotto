@@ -6,6 +6,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -15,6 +17,8 @@ import static lotto.lottogame.domain.LottoGenerator.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class LottoStatisticsTest {
+
+    private static final String RATE_PATTERN = "0.##";
 
     private Lotteries lotteries;
 
@@ -58,7 +62,7 @@ class LottoStatisticsTest {
     void getRateOfReturn(List<Integer> winningNumbers, int bonusBall, double rate) {
         WinningLotto winningLotto = new WinningLotto(winningNumbers, bonusBall);
         LottoStatistics lottoStatistics = winningLotto.createLottoStatistics(lotteries, new OrderPrice(14000));
-        assertThat(lottoStatistics.calculateRateOfProfit()).isEqualTo(rate);
+        assertThat(format(lottoStatistics.calculateRateOfProfit())).isEqualTo(rate);
     }
 
     private static Stream<Arguments> provideWinnerNumberRate() {
@@ -72,6 +76,12 @@ class LottoStatisticsTest {
                 Arguments.of(asList(22, 23, 24, 25, 26, 27), 1, 3.92),       // 3개,4개 - 4등 1명, 5등 1명
                 Arguments.of(asList(30, 31, 32, 33, 43, 45), 34, 4285.71)    // 5개,5개 - 2등 2명
         );
+    }
+
+    private static double format(double total) {
+        DecimalFormat format = new DecimalFormat(RATE_PATTERN);
+        format.setRoundingMode(RoundingMode.DOWN);
+        return Double.parseDouble(format.format(total));
     }
 
 

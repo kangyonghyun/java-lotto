@@ -18,7 +18,7 @@ public class LottoController {
         LottoStore store = new LottoStore(orderPrice);
         Lotteries allLotteries = store.sellAllLotteries(orderManualCount, printInputLottoNumbers(orderManualCount));
 
-        printOrderLottoCount(orderManualCount, store);
+        printOrderLottoCount(orderManualCount, store.calculateAutoCount(orderManualCount));
         printOrderLottoNumber(allLotteries);
 
         WinningLotto winningLotto = new WinningLotto(printInputWinningNumbers(), PrintInputBonusBall());
